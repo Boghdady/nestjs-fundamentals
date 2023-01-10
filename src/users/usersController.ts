@@ -37,7 +37,10 @@ export class UsersController {
   }
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  create(
+    @Body()
+    createUserDto: CreateUserDto,
+  ) {
     const newUser: UserEntity = {
       ...createUserDto,
       id: uuid(),
@@ -50,7 +53,8 @@ export class UsersController {
   @Patch(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateUserDto: UpdateUserDto,
+    @Body()
+    updateUserDto: UpdateUserDto,
   ) {
     // 1) find the element index that we want to update
     const index = this.users.findIndex((user) => user.id === id);
