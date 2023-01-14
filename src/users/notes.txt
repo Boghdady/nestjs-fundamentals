@@ -1,0 +1,20 @@
+DI => Dependency Injection Design Pattern
+
+=> UserController => U, AuthService => UserRepository, AuthRepository,
+ ProductRepository, OrderRepository
+
+==> Instance UserController
+const userController = new UserController(new UserService(new UserRepository(), new AuthService(new AuthRepository())))
+
+=> IoC => Inversion of Control => Means
+=> We don't create instance of class manually, we let the framework create it for us.
+
+=> DI and IoC  => manage dependencies for us.
+
+------------------------------------------------------------------------------------------------
+==> DI Container:
+=> We can use DI Container to manage dependencies for us.
+=> UserService => UserRepository
+=> AuthService => AuthRepository
+
+=> instance UserController

@@ -9,22 +9,21 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
-  Query,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserEntity } from './user.entity';
 import { v4 as uuid } from 'uuid';
+import { UserService } from './users.service';
+import { retry } from 'rxjs';
 
 @Controller('users')
 export class UsersController {
-  private users: UserEntity[] = [];
+  constructor(private readonly userService: UserService) {}
 
   @Get()
   find(): UserEntity[] {
-    return this.users;
+    return this.userService.findUsers();
   }
 
   @Get(':id')
@@ -32,9 +31,7 @@ export class UsersController {
     @Param('id', ParseUUIDPipe)
     id: string,
   ): UserEntity {
-    console.log(typeof id);
-
-    return this.users.find((user) => user.id === id);
+    return this.userService.findUserById(id);
   }
 
   @Post()
@@ -42,13 +39,7 @@ export class UsersController {
     @Body()
     createUserDto: CreateUserDto,
   ) {
-    const newUser: UserEntity = {
-      ...createUserDto,
-      id: uuid(),
-    };
-    this.users.push(newUser);
-
-    return newUser;
+    return this.userService.createUser(createUserDto);
   }
 
   @Patch(':id')
@@ -57,17 +48,12 @@ export class UsersController {
     @Body()
     updateUserDto: UpdateUserDto,
   ) {
-    // 1) find the element index that we want to update
-    const index = this.users.findIndex((user) => user.id === id);
-    // 2) update the element
-    this.users[index] = { ...this.users[index], ...updateUserDto };
-
-    return this.users[index];
+    return this.userService.updateUser(id, updateUserDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id', ParseUUIDPipe) id: string) {
-    this.users = this.users.filter((user) => user.id !== id);
+    this.userService.deleteUser(id);
   }
 }
