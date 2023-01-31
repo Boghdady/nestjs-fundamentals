@@ -19,12 +19,25 @@ class UserHabitsFactory {
   }
 }
 
+@Injectable()
+class LoggerService {
+  //   logic
+}
+
+// Alias provider
+const loggerServiceAliasProvider = {
+  provide: 'LoggerServiceAlias',
+  useExisting: LoggerService,
+};
+
 @Module({
   controllers: [UsersController],
   providers: [
     // Standard provider
     UserService,
     UserHabitsFactory,
+    LoggerService,
+    loggerServiceAliasProvider,
     // Custom provider
     // value based provider
     {
@@ -47,5 +60,6 @@ class UserHabitsFactory {
       inject: [UserHabitsFactory],
     },
   ],
+  exports: [USER_HABITS],
 })
 export class UsersModule {}
