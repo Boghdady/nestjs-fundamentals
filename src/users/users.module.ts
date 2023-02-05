@@ -21,6 +21,7 @@ class UserHabitsFactory {
 
 @Injectable()
 class LoggerService {
+  constructor(private readonly userService: UserService) {}
   //   logic
 }
 
@@ -30,6 +31,13 @@ const loggerServiceAliasProvider = {
   useExisting: LoggerService,
 };
 
+@Injectable()
+class DatabaseConnection {
+  async connectToDB(): Promise<string> {
+    return await Promise.resolve('connectToDB successfully');
+  }
+}
+
 @Module({
   controllers: [UsersController],
   providers: [
@@ -38,6 +46,7 @@ const loggerServiceAliasProvider = {
     UserHabitsFactory,
     LoggerService,
     loggerServiceAliasProvider,
+    DatabaseConnection,
     // Custom provider
     // value based provider
     {
@@ -53,11 +62,20 @@ const loggerServiceAliasProvider = {
           : ProductionConfigService,
     },
 
-    // factory based provider
+    // factory based provider + async factory based provider
     {
       provide: USER_HABITS,
-      useFactory: (userHabits: UserHabitsFactory) => userHabits.getHabits(),
-      inject: [UserHabitsFactory],
+      useFactory: async (
+        userHabits: UserHabitsFactory,
+        dbConnection: DatabaseConnection,
+      ) => {
+        // Connect to db
+        const dbStatus = await dbConnection.connectToDB();
+        // console.log(dbStatus);
+
+        return userHabits.getHabits();
+      },
+      inject: [UserHabitsFactory, DatabaseConnection],
     },
   ],
   exports: [USER_HABITS],

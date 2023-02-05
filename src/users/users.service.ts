@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, Scope } from '@nestjs/common';
 import { UserEntity } from './user.entity';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -11,8 +11,9 @@ export class UserService {
     @Inject(APP_NAME) private appName: string,
     @Inject(USER_HABITS) private userHabits: string[],
   ) {
-    console.log(this.appName);
-    console.log(this.userHabits);
+    // console.log(this.appName);
+    // console.log(this.userHabits);
+    console.log('UserService instantiated');
   }
 
   private users: UserEntity[] = [];
