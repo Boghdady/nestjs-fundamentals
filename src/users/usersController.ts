@@ -16,6 +16,7 @@ import { UserEntity } from './user.entity';
 import { v4 as uuid } from 'uuid';
 import { UserService } from './users.service';
 import { retry } from 'rxjs';
+import { UserResponseDto } from './dtos/user-response.dto';
 
 @Controller('users')
 export class UsersController {
@@ -30,7 +31,7 @@ export class UsersController {
   findOne(
     @Param('id', ParseUUIDPipe)
     id: string,
-  ): UserEntity {
+  ): UserResponseDto {
     return this.userService.findUserById(id);
   }
 
@@ -38,7 +39,7 @@ export class UsersController {
   create(
     @Body()
     createUserDto: CreateUserDto,
-  ) {
+  ): UserResponseDto {
     return this.userService.createUser(createUserDto);
   }
 
