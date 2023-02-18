@@ -10,6 +10,8 @@ import {
   Patch,
   Post,
   Req,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';

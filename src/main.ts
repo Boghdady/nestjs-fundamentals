@@ -17,7 +17,7 @@ async function bootstrap() {
   );
 
   app.useGlobalInterceptors(
-    new WrapDataInterceptor(),
+    // new WrapDataInterceptor(),
     new TimeoutInterceptor(),
   );
 
