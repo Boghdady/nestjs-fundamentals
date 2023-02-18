@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Req,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -17,13 +18,18 @@ import { v4 as uuid } from 'uuid';
 import { UserService } from './users.service';
 import { retry } from 'rxjs';
 import { UserResponseDto } from './dtos/user-response.dto';
+import { Request } from 'express';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  find(): UserEntity[] {
+  async find(@Req() req: Request): Promise<UserEntity[]> {
+    // delay 5 seconds
+    console.log(req.body);
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     return this.userService.findUsers();
   }
 

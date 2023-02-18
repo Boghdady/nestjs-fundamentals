@@ -14,7 +14,7 @@ export class UserService {
   ) {
     // console.log(this.appName);
     // console.log(this.userHabits);
-    console.log('UserService instantiated');
+    // console.log('UserService instantiated');
   }
 
   private users: UserEntity[] = [];
