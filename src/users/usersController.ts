@@ -10,6 +10,7 @@ import {
   Patch,
   Post,
   Req,
+  UseFilters,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -21,6 +22,7 @@ import { UserService } from './users.service';
 import { retry } from 'rxjs';
 import { UserResponseDto } from './dtos/user-response.dto';
 import { Request } from 'express';
+import { CustomExceptionFilter } from '../common/filters/custom-exception.filter';
 
 @Controller('users')
 export class UsersController {

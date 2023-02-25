@@ -9,7 +9,7 @@ import { UserService } from '../../users/users.service';
 
 @Injectable()
 export class WrapDataInterceptor implements NestInterceptor {
-  constructor(private readonly userService: UserService) {}
+  // constructor(private readonly userService: UserService) {}
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     // logic: Intercept request
     // console.log('Before, Request intercepting.....');
