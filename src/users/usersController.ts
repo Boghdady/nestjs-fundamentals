@@ -10,7 +10,9 @@ import {
   Patch,
   Post,
   Req,
+  SetMetadata,
   UseFilters,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -23,20 +25,25 @@ import { retry } from 'rxjs';
 import { UserResponseDto } from './dtos/user-response.dto';
 import { Request } from 'express';
 import { CustomExceptionFilter } from '../common/filters/custom-exception.filter';
+import { AuthGuard } from '../common/guards/auth.guard';
+import { Public } from '../common/decorators/public.decorator';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UserService) {}
 
+  // @SetMetadata('IS_Public', true)
+  @Public()
   @Get()
   async find(@Req() req: Request): Promise<UserEntity[]> {
     // delay 5 seconds
-    console.log(req.body);
+    // console.log(req.body);
 
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    // await new Promise((resolve) => setTimeout(resolve, 5000));
     return this.userService.findUsers();
   }
 
+  @Public()
   @Get(':id')
   findOne(
     @Param('id', ParseUUIDPipe)
@@ -45,6 +52,7 @@ export class UsersController {
     return this.userService.findUserById(id);
   }
 
+  // @UseGuards(AuthGuard)
   @Post()
   create(
     @Body()
