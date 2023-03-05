@@ -6,9 +6,11 @@ import { WrapDataInterceptor } from './common/interceptors/wrap-data.interceptor
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 import { CustomExceptionFilter } from './common/filters/custom-exception.filter';
 import { AuthGuard } from './common/guards/auth.guard';
+import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -26,6 +28,8 @@ async function bootstrap() {
   // );
 
   // app.useGlobalGuards(new AuthGuard());
+
+  // app.use(new LoggerMiddleware());
 
   await app.listen(3000);
 }

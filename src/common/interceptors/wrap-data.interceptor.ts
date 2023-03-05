@@ -13,6 +13,7 @@ export class WrapDataInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     // logic: Intercept request
     // console.log('Before, Request intercepting.....');
+    // console.log('Interceptor called....');
 
     return next.handle().pipe(
       map((data) => {
