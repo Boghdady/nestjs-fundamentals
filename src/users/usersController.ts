@@ -32,14 +32,9 @@ import { Public } from '../common/decorators/public.decorator';
 export class UsersController {
   constructor(private readonly userService: UserService) {}
 
-  // @SetMetadata('IS_Public', true)
   @Public()
   @Get()
   async find(@Req() req: Request): Promise<UserEntity[]> {
-    // delay 5 seconds
-    // console.log(req.body);
-
-    // await new Promise((resolve) => setTimeout(resolve, 5000));
     return this.userService.findUsers();
   }
 
@@ -52,7 +47,6 @@ export class UsersController {
     return this.userService.findUserById(id);
   }
 
-  // @UseGuards(AuthGuard)
   @Post()
   create(
     @Body()
