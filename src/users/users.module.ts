@@ -2,6 +2,7 @@ import { Injectable, Module } from '@nestjs/common';
 import { UsersController } from './usersController';
 import { UserService } from './users.service';
 import { APP_NAME, USER_HABITS } from './user.constants';
+import { ConfigModule } from '@nestjs/config';
 
 class MockUserService {
   findUsers() {

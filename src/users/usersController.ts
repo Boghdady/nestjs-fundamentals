@@ -10,11 +10,6 @@ import {
   Patch,
   Post,
   Req,
-  SetMetadata,
-  UseFilters,
-  UseGuards,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -24,13 +19,22 @@ import { UserService } from './users.service';
 import { retry } from 'rxjs';
 import { UserResponseDto } from './dtos/user-response.dto';
 import { Request } from 'express';
-import { CustomExceptionFilter } from '../common/filters/custom-exception.filter';
-import { AuthGuard } from '../common/guards/auth.guard';
 import { Public } from '../common/decorators/public.decorator';
+import { ConfigService } from '@nestjs/config';
+
+interface EnvironmentVariables {
+  PORT: number;
+  EMAIL: string;
+}
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly configService: ConfigService<EnvironmentVariables>,
+    private readonly userService: UserService,
+  ) {
+    console.log(this.configService.get('EMAIL', { infer: true }));
+  }
 
   @Public()
   @Get()
