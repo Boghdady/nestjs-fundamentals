@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Logger,
   Param,
   ParseUUIDPipe,
   Patch,
@@ -29,17 +30,26 @@ interface EnvironmentVariables {
 
 @Controller('users')
 export class UsersController {
+  logger: Logger = new Logger(UsersController.name);
+
   constructor(
     private readonly configService: ConfigService<EnvironmentVariables>,
     private readonly userService: UserService,
   ) {
-    console.log(this.configService.get('EMAIL', { infer: true }));
+    // console.log(this.configService.get('EMAIL', { infer: true }));
   }
 
   @Public()
   @Get()
   async find(@Req() req: Request): Promise<UserEntity[]> {
-    return this.userService.findUsers();
+    this.logger.log('Getting all users');
+
+    const users = await this.userService.findUsers();
+
+    this.logger.debug(`Found ${users.length} users`);
+    console.log(`Found ${users.length} users`);
+    // any logic depend on users length
+    return users;
   }
 
   @Public()
